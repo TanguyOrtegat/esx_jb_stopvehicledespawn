@@ -91,7 +91,7 @@ AddEventHandler('esx_jb_stopvehicledespawn:vehiclecheck', function(vehiclelist)
 		vehicleid = tonumber(vehicleid)
 		networkvehicleid = NetworkGetEntityFromNetworkId(vehicleid)
 		if not DoesEntityExist(networkvehicleid) and NetworkIsHost() then
-			TriggerServerEvent('MakeNewNetworkedCar',vehicleid)
+			TriggerServerEvent('esx_jb_stopvehicledespawn:MakeNewNetworkedCar',vehicleid)
 		else
 			if GetVehicleBodyHealth_2(networkvehicleid) == 0.0 and GetVehicleBodyHealth(networkvehicleid) == 0.0 then
 				DeleteEntity(networkvehicleid)
