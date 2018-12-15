@@ -29,8 +29,8 @@ AddEventHandler("esx_jb_stopvehicledespawn:replacevehicleid", function(oldid, ne
 	replacevehicleid(oldid, newid)
 end)
 
-RegisterServerEvent("MakeNewNetworkedCar")
-AddEventHandler("MakeNewNetworkedCar", function(oldid)
+RegisterServerEvent("esx_jb_stopvehicledespawn:MakeNewNetworkedCar")
+AddEventHandler("esx_jb_stopvehicledespawn:MakeNewNetworkedCar", function(oldid)
 	local _source = source
 	local vehiclelist = LoadVehiclesFile()
 	oldid = tostring(oldid)
@@ -41,8 +41,8 @@ AddEventHandler("MakeNewNetworkedCar", function(oldid)
 end)
 
 
-RegisterServerEvent("vehicleenteredingarage")
-AddEventHandler("vehicleenteredingarage", function(networkid)
+RegisterServerEvent("esx_jb_stopvehicledespawn:vehicleenteredingarage")
+AddEventHandler("esx_jb_stopvehicledespawn:vehicleenteredingarage", function(networkid)
 	local _source = source
 	local vehiclelist = LoadVehiclesFile()
 	networkid = tostring(networkid)
