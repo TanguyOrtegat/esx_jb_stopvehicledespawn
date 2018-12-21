@@ -17,3 +17,5 @@ this is what you need to put in you garage script when player puts a car in his 
 networkid = NetworkGetNetworkIdFromEntity(vehicle)
 TriggerServerEvent('vehicleenteredingarage', networkid)
 ```
+
+was made by Jager Bom. All rights go to him. If you reupload please keep the readme like this to mentions all peaple i was inspired by
