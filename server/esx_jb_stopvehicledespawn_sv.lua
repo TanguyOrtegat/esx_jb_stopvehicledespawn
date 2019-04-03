@@ -8,7 +8,6 @@ RegisterServerEvent('esx_jb_stopvehicledespawn:savevehicle')
 AddEventHandler('esx_jb_stopvehicledespawn:savevehicle', function(id, model, x, y, z, heading, vehicleProps)
 	local vehiclestable = LoadVehiclesFile()
 	saveVehicleToFile(id, model, x, y, z, heading, vehicleProps)
-	print("test1")
 end)
 
 RegisterServerEvent("esx_jb_stopvehicledespawn:getallvehicles")
@@ -16,7 +15,6 @@ AddEventHandler("esx_jb_stopvehicledespawn:getallvehicles", function()
 	local _source = source
 	local vehiclelist = LoadVehiclesFile()
 	TriggerClientEvent("esx_jb_stopvehicledespawn:vehiclecheck", _source, vehiclelist)
-	print("test2")
 end)
 
 RegisterServerEvent('esx_jb_stopvehicledespawn:getvehicletable')
@@ -24,13 +22,11 @@ AddEventHandler('esx_jb_stopvehicledespawn:getvehicletable', function()
 	local _source = source
 	local vehiclelist = LoadVehiclesFile()
 	TriggerClientEvent('esx_jb_stopvehicledespawn:vehiclecheck', _source, vehiclelist)
-	print("test3")
 end)
 
 RegisterServerEvent("esx_jb_stopvehicledespawn:replacevehicleid")
 AddEventHandler("esx_jb_stopvehicledespawn:replacevehicleid", function(oldid, newid)
 	replacevehicleid(oldid, newid)
-	print("test4")
 end)
 
 RegisterServerEvent("esx_jb_stopvehicledespawn:MakeNewNetworkedCar")
@@ -42,7 +38,6 @@ AddEventHandler("esx_jb_stopvehicledespawn:MakeNewNetworkedCar", function(oldid)
 		deleteVehicleId(oldid)
 		TriggerClientEvent("esx_jb_stopvehicledespawn:SpawnNewNetworkedCar", _source, vehiclelist[oldid])
 	end
-	print("test5")
 end)
 
 
@@ -54,7 +49,6 @@ AddEventHandler("esx_jb_stopvehicledespawn:vehicleenteredingarage", function(net
 	if vehiclelist[networkid] ~= nil then
 		deleteVehicleId(networkid)
 	end
-	print("test6")
 end)
 
 RegisterServerEvent("esx_jb_stopvehicledespawn:deleteFromListAndPutInPound")
@@ -90,7 +84,6 @@ AddEventHandler("esx_jb_stopvehicledespawn:deleteFromListAndPutInPound", functio
 		end
 		deleteVehicleId(vehicleid)
 	end
-	print("test7")
 end)
 
 
@@ -104,7 +97,6 @@ ESX.RegisterServerCallback('getplatelist', function(source, cb)
 		end
 		cb(platelist)
 	end)
-	print("test8")
 end)
 
 function dump(o, nb)
