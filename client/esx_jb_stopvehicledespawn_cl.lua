@@ -5,28 +5,27 @@ local playervehiclesplates = {}
 
 
 Citizen.CreateThread(function()
-  while ESX == nil do
-    TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+	end
     Citizen.Wait(3000)
 	ESX.TriggerServerCallback('getplatelist', function(platelist)
 		playervehiclesplates = platelist
 	end)
-  end
 end)
 
 function savevehtofile(vehicle)
-	local vehicleProps  = ESX.Game.GetVehicleProperties(vehicle)
-	local plate = vehicleProps.plate
+	local plate  = GetVehicleNumberPlateText(vehicle)
 	plate = tostring(plate)
-	
-	local model = vehicleProps.model
-	local x,y,z = table.unpack(GetEntityCoords(vehicle))
-	local heading = GetEntityHeading(vehicle)
-	
-	networkid = NetworkGetNetworkIdFromEntity(vehicle)
-	SetNetworkIdExistsOnAllMachines(networkid, true)
-	SetNetworkIdCanMigrate(networkid, true)
 	if playervehiclesplates[plate] then
+		local vehicleProps  = ESX.Game.GetVehicleProperties(vehicle)
+		local model = vehicleProps.model
+		local x,y,z = table.unpack(GetEntityCoords(vehicle))
+		local heading = GetEntityHeading(vehicle)
+	
+		networkid = NetworkGetNetworkIdFromEntity(vehicle)
+		SetNetworkIdExistsOnAllMachines(networkid, true)
+		SetNetworkIdCanMigrate(networkid, true)
 		TriggerServerEvent('esx_jb_stopvehicledespawn:savevehicle', networkid, model, x, y, z, heading, vehicleProps)
 	end
 
@@ -38,21 +37,28 @@ if saveOnEnter then
 		local inVehicle = false
 		while true do
 			local playerPed = GetPlayerPed(-1)
-			if IsPedInAnyVehicle(playerPed) then
-				local vehicle =GetVehiclePedIsIn(playerPed,false)
-				if GetPedInVehicleSeat(vehicle, -1) == playerPed then
-					if not inVehicle then
-						savevehtofile(vehicle)
-						inVehicle = true
-					end
-				else
-					inVehicle = false
-				end
+			-- if IsPedInAnyVehicle(playerPed) then
+				-- local vehicle =GetVehiclePedIsIn(playerPed,false)
+				-- if GetPedInVehicleSeat(vehicle, -1) == playerPed then
+					-- if not inVehicle then
+						-- savevehtofile(vehicle)
+						-- inVehicle = true
+					-- end
+				-- else
+					-- inVehicle = false
+				-- end
 				
-			else
-				inVehicle = false
+			-- else
+				-- inVehicle = false
+			-- end
+			Citizen.Wait(1000)
+			local vehicle = GetVehiclePedIsTryingToEnter(playerPed)
+			if vehicle ~= 0 then
+				if GetSeatPedIsTryingToEnter(playerPed) == -1 then
+					savevehtofile(vehicle)
+				end
+				Citizen.Wait(3000)
 			end
-			Citizen.Wait(500)
 		end
 	end)
 end
@@ -75,10 +81,9 @@ Citizen.CreateThread(function()
 			if inVeh then
 				local vehicle = GetVehiclePedIsIn(playerPed, true)
 				savevehtofile(vehicle)
+				inVeh = false
 			end
-			inVeh = false
 		end
-
 		Citizen.Wait(intervals.save*1000)
 	end
 end)
