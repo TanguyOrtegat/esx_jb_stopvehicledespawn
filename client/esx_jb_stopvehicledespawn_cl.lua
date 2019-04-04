@@ -95,14 +95,19 @@ AddEventHandler('esx_jb_stopvehicledespawn:vehiclecheck', function(vehiclelist)
 	for vehicleid, vehicle in pairs(vehiclelist) do
 		vehicleid = tonumber(vehicleid)
 		networkvehicleid = NetworkGetEntityFromNetworkId(vehicleid)
-		if not DoesEntityExist(networkvehicleid) and NetworkIsHost() then
+
+		if (not DoesEntityExist(networkvehicleid) or GetVehicleBodyHealth_2(networkvehicleid) == 0.0 and GetVehicleBodyHealth(networkvehicleid)  == 0.0) and NetworkIsHost() then
 			TriggerServerEvent('esx_jb_stopvehicledespawn:MakeNewNetworkedCar',vehicleid)
 		else
-			if GetVehicleBodyHealth_2(networkvehicleid) == 0.0 and GetVehicleBodyHealth(networkvehicleid) == 0.0 then
-				DeleteEntity(networkvehicleid)
-				if NetworkIsHost() then
+				print(GetVehicleBodyHealth_2(networkvehicleid))
+		print(GetVehicleBodyHealth(networkvehicleid))
+		print('vehicle deleted!')
+			if NetworkIsHost() then
+				-- if  NetworkIsHost() then
+					print('vehicle deleted!2')
+					DeleteEntity(networkvehicleid)
 					TriggerServerEvent('esx_jb_stopvehicledespawn:deleteFromListAndPutInPound', vehicleid)
-				end
+				-- end
 			end
 		end
 	end
@@ -128,7 +133,9 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		TriggerServerEvent('esx_jb_stopvehicledespawn:getvehicletable')
+		if NetworkIsHost() then
+			TriggerServerEvent('esx_jb_stopvehicledespawn:getvehicletable')
+		end
 		Citizen.Wait(intervals.check*1000)
 	end
 end)
